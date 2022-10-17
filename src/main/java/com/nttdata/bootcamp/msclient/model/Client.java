@@ -19,7 +19,7 @@ public class Client {
     @Indexed(unique = true)
     private Integer id;
     @NonNull
-    private Integer clientType;//1 - Personal / 2 - Empresarial
+    private Integer clientType;//0 - Personal / 1 - Empresarial
     @NonNull
     private Integer docType;//1 -  DNI / 2 - RUC / 3 - Carnet Ext
     @NonNull
