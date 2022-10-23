@@ -40,23 +40,28 @@ public class ClientController {
 
     @GetMapping(value = "/find/{id}")
     @ResponseBody
-    public Mono<Client> findClientById(@PathVariable Integer id) {
+    public Mono<ResponseEntity<Client>> findClientById(@PathVariable Integer id) {
         return clientService.findById(id)
-                .defaultIfEmpty(null);
+                .map(client -> ResponseEntity.ok().body(client))
+                .onErrorResume(e -> {
+                    log.info("Client not found " + id, e);
+                    return Mono.just(ResponseEntity.badRequest().build());
+                })
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PutMapping(value = "/update/{id}")
     @ResponseBody
-    public Mono<Client> updateClient(@PathVariable Integer id, @RequestBody Client client) {
+    public Mono<ResponseEntity<Client>> updateClient(@PathVariable Integer id, @RequestBody Client client) {
         return clientService.update(id, client)
-                .defaultIfEmpty(null);
+                .map(c -> new ResponseEntity<>(c, HttpStatus.ACCEPTED))
+                .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping(value = "/delete/{id}")
     @ResponseBody
     public Mono<Void> deleteByIdClient(@PathVariable Integer id) {
-        return clientService.delete(id)
-                .defaultIfEmpty(null);
+        return clientService.delete(id);
     }
 
 }

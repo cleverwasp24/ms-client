@@ -16,13 +16,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Client {
 
     @Id
-    @Indexed(unique = true)
     private Integer id;
     @NonNull
     private Integer clientType;//0 - Personal / 1 - Empresarial
     @NonNull
-    private Integer docType;//1 -  DNI / 2 - RUC / 3 - Carnet Ext
+    private Integer docType;//0 -  DNI / 1 - RUC / 2 - Carnet Ext
     @NonNull
+    @Indexed(unique = true)
     private String docNumber;
     @Nullable
     private String firstName;

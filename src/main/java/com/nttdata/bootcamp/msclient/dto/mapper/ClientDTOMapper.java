@@ -1,4 +1,4 @@
-package com.nttdata.bootcamp.msclient.mapper;
+package com.nttdata.bootcamp.msclient.dto.mapper;
 
 import com.nttdata.bootcamp.msclient.dto.BusinessClientDTO;
 import com.nttdata.bootcamp.msclient.dto.PersonalClientDTO;
