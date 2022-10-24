@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.msclient.controller;
 
 import com.nttdata.bootcamp.msclient.dto.BusinessClientDTO;
 import com.nttdata.bootcamp.msclient.dto.PersonalClientDTO;
+import com.nttdata.bootcamp.msclient.dto.ProductDTO;
 import com.nttdata.bootcamp.msclient.model.Client;
 import com.nttdata.bootcamp.msclient.service.impl.ClientServiceImpl;
 import lombok.extern.log4j.Log4j2;
@@ -28,13 +29,13 @@ public class ClientController {
 
     @PostMapping(value = "/createPersonalClient")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<PersonalClientDTO> createPersonalClient(@RequestBody PersonalClientDTO personalClientDTO) {
+    public Mono<String> createPersonalClient(@RequestBody PersonalClientDTO personalClientDTO) {
         return clientService.createPersonalClient(personalClientDTO);
     }
 
     @PostMapping(value = "/createBusinessClient")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<BusinessClientDTO> createBusinessClient(@RequestBody BusinessClientDTO businessClientDTO) {
+    public Mono<String> createBusinessClient(@RequestBody BusinessClientDTO businessClientDTO) {
         return clientService.createBusinessClient(businessClientDTO);
     }
 
@@ -63,5 +64,19 @@ public class ClientController {
     public Mono<Void> deleteByIdClient(@PathVariable Integer id) {
         return clientService.delete(id);
     }
+
+    @GetMapping(value = "/findAllProductsById/{id}")
+    @ResponseBody
+    public Mono<ProductDTO> getAllProductsById(@PathVariable Integer id) {
+        return clientService.findAllProductsById(id);
+    }/*public Mono<ResponseEntity<ProductDTO>> getAllProductsById(@PathVariable Integer id) {
+        return clientService.findAllProductsById(id)
+                .map(client -> ResponseEntity.ok().body(client))
+                .onErrorResume(e -> {
+                    log.info("Products not found " + id, e);
+                    return Mono.just(ResponseEntity.badRequest().build());
+                })
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }*/
 
 }
