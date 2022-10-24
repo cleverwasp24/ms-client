@@ -16,10 +16,7 @@ spring:
     name: ms-client
 logging:
   level:
-    com:
-      nttdata:
-        bootcamp:
-          msclient: info
+    '[com.nttdata.bootcamp.msclient]': Info
 server:
   port: '8081'
 eureka:
