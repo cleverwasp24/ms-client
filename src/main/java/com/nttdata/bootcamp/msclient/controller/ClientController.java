@@ -41,7 +41,7 @@ public class ClientController {
 
     @GetMapping(value = "/find/{id}")
     @ResponseBody
-    public Mono<ResponseEntity<Client>> findClientById(@PathVariable Integer id) {
+    public Mono<ResponseEntity<Client>> findClientById(@PathVariable Long id) {
         return clientService.findById(id)
                 .map(client -> ResponseEntity.ok().body(client))
                 .onErrorResume(e -> {
@@ -53,7 +53,7 @@ public class ClientController {
 
     @PutMapping(value = "/update/{id}")
     @ResponseBody
-    public Mono<ResponseEntity<Client>> updateClient(@PathVariable Integer id, @RequestBody Client client) {
+    public Mono<ResponseEntity<Client>> updateClient(@PathVariable Long id, @RequestBody Client client) {
         return clientService.update(id, client)
                 .map(c -> new ResponseEntity<>(c, HttpStatus.ACCEPTED))
                 .defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -61,22 +61,14 @@ public class ClientController {
 
     @DeleteMapping(value = "/delete/{id}")
     @ResponseBody
-    public Mono<Void> deleteByIdClient(@PathVariable Integer id) {
+    public Mono<Void> deleteByIdClient(@PathVariable Long id) {
         return clientService.delete(id);
     }
 
     @GetMapping(value = "/findAllProductsById/{id}")
     @ResponseBody
-    public Mono<ProductDTO> getAllProductsById(@PathVariable Integer id) {
+    public Mono<ProductDTO> getAllProductsById(@PathVariable Long id) {
         return clientService.findAllProductsById(id);
-    }/*public Mono<ResponseEntity<ProductDTO>> getAllProductsById(@PathVariable Integer id) {
-        return clientService.findAllProductsById(id)
-                .map(client -> ResponseEntity.ok().body(client))
-                .onErrorResume(e -> {
-                    log.info("Products not found " + id, e);
-                    return Mono.just(ResponseEntity.badRequest().build());
-                })
-                .defaultIfEmpty(ResponseEntity.notFound().build());
-    }*/
+    }
 
 }

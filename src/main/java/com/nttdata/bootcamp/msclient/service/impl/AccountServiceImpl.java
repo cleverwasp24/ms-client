@@ -21,7 +21,7 @@ public class AccountServiceImpl implements AccountService {
         this.webClient = webClientBuilder.baseUrl("http://localhost:8082").build();
     }
 
-    public Flux<AccountDTO> findAllById(Integer id) {
+    public Flux<AccountDTO> findAllById(Long id) {
         Flux<AccountDTO> findAllById = this.webClient.get()
                 .uri("/bootcamp/account/findAllByClientId/{id}", id)
                 .retrieve()

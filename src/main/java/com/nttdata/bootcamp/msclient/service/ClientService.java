@@ -14,11 +14,11 @@ public interface ClientService {
 
     Mono<Client> create(Client client);
 
-    Mono<Client> findById(Integer id);
+    Mono<Client> findById(Long id);
 
-    Mono<Client> update(Integer id, Client client);
+    Mono<Client> update(Long id, Client client);
 
-    Mono<Void> delete(Integer id);
+    Mono<Void> delete(Long id);
 
     Mono<String> createPersonalClient(PersonalClientDTO clientDTO);
 
@@ -28,7 +28,6 @@ public interface ClientService {
 
     Mono<String> checkFieldsBusinessClient(BusinessClientDTO clientDTO);
 
-    Mono<ProductDTO> findAllProductsById(Integer id);
-    //Mono<ProductDTO> findAllProductsById(Integer id);
+    Mono<ProductDTO> findAllProductsById(Long id);
 
 }

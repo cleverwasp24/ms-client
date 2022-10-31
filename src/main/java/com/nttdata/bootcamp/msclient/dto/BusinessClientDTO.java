@@ -5,7 +5,6 @@ import lombok.Data;
 @Data
 public class BusinessClientDTO {
 
-    private Integer id;
     private Integer docType;
     private String docNumber;
     private String companyName;

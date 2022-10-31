@@ -14,17 +14,17 @@ public class CreditCardServiceImpl implements CreditCardService {
     private final WebClient webClient;
 
     public CreditCardServiceImpl(WebClient.Builder webClientBuilder) {
-        //microservicio credit
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8083").build();
+        //microservicio cards
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8084").build();
     }
 
-    public Flux<CreditCardDTO> findAllById(Integer id) {
+    public Flux<CreditCardDTO> findAllById(Long id) {
         Flux<CreditCardDTO> findAllById = this.webClient.get()
-                .uri("/bootcamp/creditcard/findAllByClientId/{id}", id)
+                .uri("/bootcamp/card/findAllCreditByClientId/{id}", id)
                 .retrieve()
                 .bodyToFlux(CreditCardDTO.class);
 
-        log.info("Credit cards obtained from service ms-credit:" + findAllById);
+        log.info("Credit cards obtained from service ms-card:" + findAllById);
         return findAllById;
     }
 

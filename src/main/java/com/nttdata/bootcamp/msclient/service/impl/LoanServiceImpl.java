@@ -20,7 +20,7 @@ public class LoanServiceImpl implements LoanService {
         this.webClient = webClientBuilder.baseUrl("http://localhost:8083").build();
     }
 
-    public Flux<LoanDTO> findAllById(Integer id) {
+    public Flux<LoanDTO> findAllById(Long id) {
         Flux<LoanDTO> findAllById = this.webClient.get()
                 .uri("/bootcamp/loan/findAllByClientId/{id}", id)
                 .retrieve()

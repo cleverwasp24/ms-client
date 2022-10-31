@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,12 +16,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 public class Client {
 
+    @Transient
+    public static final String SEQUENCE_NAME = "client_sequence";
+
     @Id
-    private Integer id;
+    private Long id;
     @NonNull
-    private Integer clientType;//0 - Personal / 1 - Empresarial
+    private Integer clientType;
     @NonNull
-    private Integer docType;//0 -  DNI / 1 - RUC / 2 - Carnet Ext
+    private Integer docType;
     @NonNull
     @Indexed(unique = true)
     private String docNumber;

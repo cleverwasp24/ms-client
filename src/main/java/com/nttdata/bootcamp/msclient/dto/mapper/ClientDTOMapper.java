@@ -13,14 +13,12 @@ public class ClientDTOMapper {
     private ModelMapper modelMapper = new ModelMapper();
 
     public Object convertToDto(Client client, ClientTypeEnum type) {
-        switch (type){
-            case PERSONAL:
-                return modelMapper.map(client, PersonalClientDTO.class);
-            case BUSINESS:
-                return modelMapper.map(client, BusinessClientDTO.class);
-            default:
-                return null;
-        }
+       return switch (type){
+            case PERSONAL->
+                 modelMapper.map(client, PersonalClientDTO.class);
+            case BUSINESS->
+                 modelMapper.map(client, BusinessClientDTO.class);
+        };
     }
     public Client convertToEntity(Object clientDTO, ClientTypeEnum type) {
         Client client = modelMapper.map(clientDTO, Client.class);

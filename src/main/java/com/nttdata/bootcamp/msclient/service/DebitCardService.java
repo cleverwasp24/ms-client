@@ -1,11 +1,11 @@
 package com.nttdata.bootcamp.msclient.service;
 
 import com.nttdata.bootcamp.msclient.dto.CreditCardDTO;
-import com.nttdata.bootcamp.msclient.dto.LoanDTO;
+import com.nttdata.bootcamp.msclient.dto.DebitCardDTO;
 import reactor.core.publisher.Flux;
 
-public interface LoanService {
+public interface DebitCardService {
 
-    Flux<LoanDTO> findAllById(Long id);
+    Flux<DebitCardDTO> findAllById(Long id);
 
 }

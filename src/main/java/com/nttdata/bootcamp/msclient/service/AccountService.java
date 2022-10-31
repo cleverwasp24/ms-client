@@ -6,6 +6,6 @@ import reactor.core.publisher.Flux;
 
 public interface AccountService {
 
-    Flux<AccountDTO> findAllById(Integer id);
+    Flux<AccountDTO> findAllById(Long id);
 
 }
