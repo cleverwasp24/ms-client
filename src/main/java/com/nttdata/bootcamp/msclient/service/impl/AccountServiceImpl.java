@@ -4,11 +4,15 @@ import com.nttdata.bootcamp.msclient.dto.AccountDTO;
 import com.nttdata.bootcamp.msclient.dto.LoanDTO;
 import com.nttdata.bootcamp.msclient.service.AccountService;
 import com.nttdata.bootcamp.msclient.service.LoanService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Log4j2
 @Service
@@ -21,14 +25,21 @@ public class AccountServiceImpl implements AccountService {
         this.webClient = webClientBuilder.baseUrl("http://localhost:8082").build();
     }
 
+    @CircuitBreaker(name = "service-account", fallbackMethod = "findAllByIdFallback")
+    @TimeLimiter(name = "service-account")
+    @Override
     public Flux<AccountDTO> findAllById(Long id) {
-        Flux<AccountDTO> findAllById = this.webClient.get()
+        return this.webClient.get()
                 .uri("/bootcamp/account/findAllByClientId/{id}", id)
                 .retrieve()
+                .onStatus(HttpStatus::is4xxClientError, clientResponse -> Mono.error(new RuntimeException("Error " + clientResponse.statusCode())))
+                .onStatus(HttpStatus::is5xxServerError, clientResponse -> Mono.error(new RuntimeException("Error " + clientResponse.statusCode())))
                 .bodyToFlux(AccountDTO.class);
+    }
 
-        log.info("Accounts obtained from service ms-account:" + findAllById);
-        return findAllById;
+    public Flux<AccountDTO> findAllByIdFallback(Long id, Throwable t) {
+        log.info("Fallback method for findAllByIdFallback (ACCOUNT) executed {}", t.getMessage());
+        return Flux.empty();
     }
 
 }

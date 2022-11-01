@@ -51,7 +51,7 @@ public class ClientServiceImpl implements ClientService {
     public Mono<String> createPersonalClient(PersonalClientDTO clientDTO) {
         log.info("Creating personal client: " + clientDTO.toString());
         Client client = clientDTOMapper.convertToEntity(clientDTO, ClientTypeEnum.PERSONAL);
-        return checkFieldsPersonalClient(clientDTO)
+        return checkFields(client)
                 .switchIfEmpty(databaseSequenceService.generateSequence(Client.SEQUENCE_NAME).flatMap(sequence -> {
                     client.setId(sequence);
                     return clientRepository.save(client)
@@ -62,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
     public Mono<String> createBusinessClient(BusinessClientDTO clientDTO) {
         log.info("Creating business client: " + clientDTO.toString());
         Client client = clientDTOMapper.convertToEntity(clientDTO, ClientTypeEnum.BUSINESS);
-        return checkFieldsBusinessClient(clientDTO)
+        return checkFields(client)
                 .switchIfEmpty(databaseSequenceService.generateSequence(Client.SEQUENCE_NAME).flatMap(sequence -> {
                     client.setId(sequence);
                     return clientRepository.save(client)
@@ -92,32 +92,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Mono<String> checkFieldsPersonalClient(PersonalClientDTO clientDTO) {
-        if (clientDTO.getDocType() == null) {
+    public Mono<String> checkFields(Client client) {
+        if (client.getDocType() == null) {
             return Mono.error(new IllegalArgumentException("Client document type cannot be empty"));
         }
-        if (clientDTO.getDocNumber() == null || clientDTO.getDocNumber().trim().equals("")) {
+        if (client.getDocNumber() == null || client.getDocNumber().trim().equals("")) {
             return Mono.error(new IllegalArgumentException("Client document number cannot be empty"));
         }
-        if (clientDTO.getFirstName() == null || clientDTO.getFirstName().trim().equals("")) {
-            return Mono.error(new IllegalArgumentException("Client first name cannot be empty"));
-        }
-        if (clientDTO.getLastName() == null || clientDTO.getLastName().trim().equals("")) {
-            return Mono.error(new IllegalArgumentException("Client last name cannot be empty"));
-        }
-        return Mono.empty();
-    }
-
-    @Override
-    public Mono<String> checkFieldsBusinessClient(BusinessClientDTO clientDTO) {
-        if (clientDTO.getDocType() == null) {
-            return Mono.error(new IllegalArgumentException("Client document type cannot be empty"));
-        }
-        if (clientDTO.getDocNumber() == null || clientDTO.getDocNumber().trim().equals("")) {
-            return Mono.error(new IllegalArgumentException("Client document number cannot be empty"));
-        }
-        if (clientDTO.getCompanyName() == null || clientDTO.getCompanyName().trim().equals("")) {
-            return Mono.error(new IllegalArgumentException("Client company name cannot be empty"));
+        switch (ClientTypeEnum.valueOf(client.getClientType())){
+            case PERSONAL:
+                if (client.getFirstName() == null || client.getFirstName().trim().equals("")) {
+                    return Mono.error(new IllegalArgumentException("Client first name cannot be empty"));
+                }
+                if (client.getLastName() == null || client.getLastName().trim().equals("")) {
+                    return Mono.error(new IllegalArgumentException("Client last name cannot be empty"));
+                }
+                break;
+            case BUSINESS:
+                if (client.getCompanyName() == null || client.getCompanyName().trim().equals("")) {
+                    return Mono.error(new IllegalArgumentException("Client company name cannot be empty"));
+                }
+                break;
         }
         return Mono.empty();
     }

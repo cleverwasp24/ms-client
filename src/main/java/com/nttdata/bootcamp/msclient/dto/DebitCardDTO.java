@@ -10,7 +10,7 @@ public class DebitCardDTO {
 
     private String cardNumber;
     private Integer clientCardType;
-    private Double primaryAccountId;
-    private List<Integer> associatedAccountsId;
+    private Long primaryAccountId;
+    private List<Long> associatedAccountsId;
     private LocalDateTime creationDate;
 }

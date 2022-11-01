@@ -24,9 +24,7 @@ public interface ClientService {
 
     Mono<String> createBusinessClient(BusinessClientDTO clientDTO);
 
-    Mono<String> checkFieldsPersonalClient(PersonalClientDTO clientDTO);
-
-    Mono<String> checkFieldsBusinessClient(BusinessClientDTO clientDTO);
+    Mono<String> checkFields(Client client);
 
     Mono<ProductDTO> findAllProductsById(Long id);
 
