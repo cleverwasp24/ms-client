@@ -4,7 +4,7 @@ import com.nttdata.bootcamp.msclient.dto.BusinessClientDTO;
 import com.nttdata.bootcamp.msclient.dto.PersonalClientDTO;
 import com.nttdata.bootcamp.msclient.dto.ProductDTO;
 import com.nttdata.bootcamp.msclient.model.Client;
-import com.nttdata.bootcamp.msclient.service.impl.ClientServiceImpl;
+import com.nttdata.bootcamp.msclient.service.ClientService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ import reactor.core.publisher.Mono;
 public class ClientController {
 
     @Autowired
-    private ClientServiceImpl clientService;
+    private ClientService clientService;
 
     @GetMapping(value = "/findAllClients")
     @ResponseBody

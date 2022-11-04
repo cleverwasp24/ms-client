@@ -1,6 +1,5 @@
 package com.nttdata.bootcamp.msclient.service.impl;
 
-import com.nttdata.bootcamp.msclient.dto.AccountDTO;
 import com.nttdata.bootcamp.msclient.dto.DebitCardDTO;
 import com.nttdata.bootcamp.msclient.service.DebitCardService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -35,7 +34,7 @@ public class DebitCardServiceImpl implements DebitCardService {
                 .bodyToFlux(DebitCardDTO.class);
     }
 
-    public Flux<AccountDTO> findAllByIdFallback(Long id, Throwable t) {
+    public Flux<DebitCardDTO> findAllByIdFallback(Long id, Throwable t) {
         log.info("Fallback method for findAllByIdFallback (DEBIT CARD) executed {}", t.getMessage());
         return Flux.empty();
     }
