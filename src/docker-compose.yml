@@ -1,0 +1,93 @@
+version: "3"
+services:
+  config-server:
+    image: config-server:1.0
+    container_name: config-server
+    ports:
+      - 8090:8090
+    networks:
+      - bootcamp
+  ms-discovery:
+    image: ms-discovery:1.0
+    container_name: ms-discovery
+    ports:
+      - 8089:8089
+    depends_on:
+      - config-server
+    networks:
+      - bootcamp
+  ms-gateway:
+    image: ms-gateway:1.0
+    container_name: ms-gateway
+    ports:
+      - 8088:8088
+    depends_on:
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - bootcamp
+  msclient:
+    image: ms-client:1.0
+    container_name: ms-client
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+  msaccount:
+    image: ms-account:1.0
+    container_name: ms-account
+    ports:
+      - 8082:8082
+    depends_on:
+      - mongodb
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+  mscredit:
+    image: ms-credit:1.0
+    container_name: ms-credit
+    ports:
+      - 8083:8083
+    depends_on:
+      - mongodb
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+  mscard:
+    image: ms-card:1.0
+    container_name: ms-card
+    ports:
+      - 8084:8084
+    depends_on:
+      - mongodb
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+  mswallet:
+    image: ms-wallet:1.0
+    container_name: ms-wallet
+    ports:
+      - 8085:8085
+    depends_on:
+      - mongodb
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+networks:
+  bootcamp:
+    driver: bridge
