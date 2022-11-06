@@ -21,7 +21,7 @@ public class LoanServiceImpl implements LoanService {
 
     public LoanServiceImpl(WebClient.Builder webClientBuilder) {
         //microservicio credit
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8083").build();
+        this.webClient = webClientBuilder.baseUrl("http://ms-gateway:8088").build();
     }
 
     @CircuitBreaker(name = "service-loan", fallbackMethod = "findAllByIdFallback")

@@ -21,8 +21,8 @@ public class AccountServiceImpl implements AccountService {
     private final WebClient webClient;
 
     public AccountServiceImpl(WebClient.Builder webClientBuilder) {
-        //microservicio account
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8082").build();
+        //microservice gateway (account)
+        this.webClient = webClientBuilder.baseUrl("http://ms-gateway:8088").build();
     }
 
     @CircuitBreaker(name = "service-account", fallbackMethod = "findAllByIdFallback")

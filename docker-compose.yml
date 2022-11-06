@@ -33,7 +33,7 @@ services:
       - 27017:27017
     networks:
       - bootcamp
-  msclient:
+  ms-client:
     image: ms-client:1.0
     container_name: ms-client
     ports:
@@ -44,7 +44,7 @@ services:
       - ms-discovery
     networks:
       - bootcamp
-  msaccount:
+  ms-account:
     image: ms-account:1.0
     container_name: ms-account
     ports:
@@ -55,7 +55,7 @@ services:
       - ms-discovery
     networks:
       - bootcamp
-  mscredit:
+  ms-credit:
     image: ms-credit:1.0
     container_name: ms-credit
     ports:
@@ -66,7 +66,7 @@ services:
       - ms-discovery
     networks:
       - bootcamp
-  mscard:
+  ms-card:
     image: ms-card:1.0
     container_name: ms-card
     ports:
@@ -77,7 +77,7 @@ services:
       - ms-discovery
     networks:
       - bootcamp
-  mswallet:
+  ms-wallet:
     image: ms-wallet:1.0
     container_name: ms-wallet
     ports:

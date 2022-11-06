@@ -55,7 +55,8 @@ public class ClientServiceImpl implements ClientService {
                 .switchIfEmpty(databaseSequenceService.generateSequence(Client.SEQUENCE_NAME).flatMap(sequence -> {
                     client.setId(sequence);
                     return clientRepository.save(client)
-                            .flatMap(c -> Mono.just("Personal Client created! " + clientDTOMapper.convertToDto(c, ClientTypeEnum.PERSONAL)));
+                            .flatMap(c -> Mono.just("Personal Client created! " + clientDTOMapper.convertToDto(c, ClientTypeEnum.PERSONAL)))
+                            .onErrorMap(e -> new RuntimeException("Error creating personal client" + e.getMessage()));
                 }));
     }
 
@@ -66,7 +67,8 @@ public class ClientServiceImpl implements ClientService {
                 .switchIfEmpty(databaseSequenceService.generateSequence(Client.SEQUENCE_NAME).flatMap(sequence -> {
                     client.setId(sequence);
                     return clientRepository.save(client)
-                            .flatMap(c -> Mono.just("Business Client created! " + clientDTOMapper.convertToDto(c, ClientTypeEnum.BUSINESS)));
+                            .flatMap(c -> Mono.just("Business Client created! " + clientDTOMapper.convertToDto(c, ClientTypeEnum.BUSINESS)))
+                            .onErrorMap(e -> new RuntimeException("Error creating business client" + e.getMessage()));
                 }));
     }
 
@@ -99,7 +101,7 @@ public class ClientServiceImpl implements ClientService {
         if (client.getDocNumber() == null || client.getDocNumber().trim().equals("")) {
             return Mono.error(new IllegalArgumentException("Client document number cannot be empty"));
         }
-        switch (ClientTypeEnum.valueOf(client.getClientType())){
+        switch (ClientTypeEnum.valueOf(client.getClientType())) {
             case PERSONAL:
                 if (client.getFirstName() == null || client.getFirstName().trim().equals("")) {
                     return Mono.error(new IllegalArgumentException("Client first name cannot be empty"));

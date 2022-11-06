@@ -19,7 +19,7 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     public CreditCardServiceImpl(WebClient.Builder webClientBuilder) {
         //microservicio cards
-        this.webClient = webClientBuilder.baseUrl("http://localhost:8084").build();
+        this.webClient = webClientBuilder.baseUrl("http://ms-gateway:8088").build();
     }
 
     @CircuitBreaker(name = "service-credit-card", fallbackMethod = "findAllByIdFallback")
