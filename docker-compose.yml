@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 services:
   config-server:
     image: config-server:1.0
@@ -82,6 +82,17 @@ services:
     container_name: ms-wallet
     ports:
       - 8085:8085
+    depends_on:
+      - mongodb
+      - config-server
+      - ms-discovery
+    networks:
+      - bootcamp
+  ms-crypto:
+    image: ms-crypto:1.0
+    container_name: ms-crypto
+    ports:
+      - 8086:8086
     depends_on:
       - mongodb
       - config-server
